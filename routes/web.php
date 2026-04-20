@@ -18,10 +18,9 @@ Route::livewire('/register', 'pages::register');
 Route::livewire('/forgot-password', 'pages::forgot-password')->name('password.request');
 Route::livewire('/reset-password/{token}', 'pages::reset-password')->name('password.reset');
 
-
-
 Route::middleware('auth')->group(function () {
     Route::livewire('/dashboard', 'pages::index')->name('dashboard');
+    Route::livewire('/profile', 'pages::profile')->name('profile');
 
     Route::name('users.')->group(function () {
         Route::livewire('/users', 'pages::users.index')->name('index');

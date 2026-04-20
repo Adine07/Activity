@@ -15,9 +15,6 @@ new class extends Component {
     #[Rule('required')]
     public ?int $project_id = null;
 
-    #[Rule('required')]
-    public ?int $user_id = null;
-
     #[Rule('required|date')]
     public string $date = '';
 
@@ -29,6 +26,10 @@ new class extends Component {
 
     public function mount(): void
     {
+        if ($this->timesheet->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized');
+        }
+
         $this->fill($this->timesheet);
     }
 
@@ -43,7 +44,6 @@ new class extends Component {
     {
         return [
             'projects' => Project::all(),
-            'users' => User::all(),
         ];
     }
 }; ?>
@@ -55,7 +55,6 @@ new class extends Component {
         <div class="grid gap-5 lg:grid-cols-2">
             <div class="space-y-4">
                 <x-select label="Project" wire:model="project_id" :options="$projects" placeholder="Select Project" icon="o-cube" inline />
-                <x-select label="User" wire:model="user_id" :options="$users" placeholder="Select User" icon="o-user" inline />
                 <x-datetime label="Date" wire:model="date" icon="o-calendar" inline />
             </div>
             <div class="space-y-4">

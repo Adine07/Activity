@@ -10,16 +10,18 @@ use Mary\Traits\Toast;
 new class extends Component {
     use Toast;
 
+    #[Livewire\Attributes\Url(as: 'user')]
     public ?int $selectedUserId = null;
 
+    #[Livewire\Attributes\Url(as: 'date')]
     public string $selectedDate = '';
 
     public ?string $selectedTimesheetId = null;
 
     public function mount()
     {
-        $this->selectedUserId = auth()->id();
-        $this->selectedDate = date('Y-m-d');
+        $this->selectedUserId ??= auth()->id();
+        $this->selectedDate = $this->selectedDate ?: date('Y-m-d');
     }
 
     public function updated($property)
@@ -42,6 +44,19 @@ new class extends Component {
     public function selectToday()
     {
         $this->selectedDate = date('Y-m-d');
+    }
+
+    public function delete(Timesheet $timesheet): void
+    {
+        if ($timesheet->user_id !== auth()->id()) {
+            $this->error('Unauthorized action.', position: 'toast-bottom');
+
+            return;
+        }
+
+        $timesheet->delete();
+        $this->selectedTimesheetId = null;
+        $this->success('Timesheet entry deleted.', position: 'toast-bottom');
     }
 
     public function with(): array
@@ -119,9 +134,16 @@ new class extends Component {
                                     <span class="text-xs font-bold text-base-content/30 uppercase tracking-widest">{{ $selectedItem->created_at?->format('F d, Y') }}</span>
                                 </div>
                             </div>
+
+                            @if($selectedItem->user_id === auth()->id())
+                                <div class="flex gap-2 shrink-0">
+                                    <x-button icon="o-pencil-square" link="/timesheet/{{ $selectedItem->id }}/edit" label="Edit" class="btn-outline btn-sm rounded-xl font-black uppercase text-[10px] tracking-widest" />
+                                    <x-button icon="o-trash" wire:click="delete({{ $selectedItem->id }})" wire:confirm="Are you sure you want to delete this entry?" label="Delete" class="btn-error btn-outline btn-sm rounded-xl font-black uppercase text-[10px] tracking-widest" />
+                                </div>
+                            @endif
                         </div>
 
-                        <article class="prose prose-base lg:prose-lg max-w-none prose-headings:font-black prose-p:text-base-content/70 prose-a:text-primary">
+                        <article class="prose prose-base lg:prose-lg max-w-none prose-headings:font-black prose-p:text-base-content/70 prose-a:text-primary EasyMDEContainer">
                             {!! Str::markdown($selectedItem->description ?? '_No description provided._') !!}
                         </article>
                     @endif

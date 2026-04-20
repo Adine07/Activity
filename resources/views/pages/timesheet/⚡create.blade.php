@@ -42,7 +42,6 @@ new class extends Component {
     {
         return [
             'projects' => Project::all(),
-            'users' => User::all(),
         ];
     }
 }; ?>
@@ -54,7 +53,6 @@ new class extends Component {
         <div class="grid gap-5 lg:grid-cols-2">
             <div class="space-y-4">
                 <x-select label="Project" wire:model="project_id" :options="$projects" placeholder="Select Project" icon="o-cube" inline />
-                <x-select label="User" wire:model="user_id" :options="$users" placeholder="Select User" icon="o-user" inline />
                 <x-datetime label="Date" wire:model="date" icon="o-calendar" inline />
             </div>
             <div class="space-y-4">

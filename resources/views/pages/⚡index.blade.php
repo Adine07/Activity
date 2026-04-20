@@ -72,66 +72,64 @@ new class extends Component {
         </x-slot:middle>
     </x-header>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        {{-- Left: Daily Lists --}}
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
         <div class="lg:col-span-2 space-y-6">
             <div class="flex items-center justify-between">
                 <div>
                     <h2 class="text-xl font-bold">Recent Activities</h2>
                     <p class="text-xs text-base-content/50 uppercase font-bold tracking-widest mt-1">Your logs from the past week</p>
                 </div>
-                <div class="flex gap-2">
-                    <x-button icon="o-chevron-left" class="btn-circle btn-outline btn-sm" />
-                    <x-button icon="o-chevron-right" class="btn-circle btn-outline btn-sm" />
-                </div>
             </div>
 
             <div class="flex gap-4 overflow-x-auto pb-6 scrollbar-hide">
                 @foreach($groupedTimesheets as $date => $items)
-                    <x-card class="min-w-[300px] max-w-[300px] bg-base-100/50 backdrop-blur-sm border-base-200 hover:border-primary/30 transition-all group shadow-none border">
-                        <x-slot:title>
-                            <div class="flex justify-between items-center border-b border-base-content/5 pb-3">
-                                <span class="text-xs font-black uppercase tracking-widest {{ $date == date('Y-m-d') ? 'text-primary' : 'text-base-content/40' }}">
-                                    @if($date == date('Y-m-d')) Today
-                                    @elseif($date == date('Y-m-d', strtotime('-1 day'))) Yesterday
-                                    @else {{ \Carbon\Carbon::parse($date)->format('l, d M') }}
-                                    @endif
-                                </span>
-                                <span class="badge badge-sm {{ $items->count() > 0 ? 'badge-primary' : 'badge-ghost opacity-30' }}">
-                                    {{ $items->count() }}
-                                </span>
-                            </div>
-                        </x-slot:title>
+                    <a href="{{ route('timesheet.index', ['user' => auth()->id(), 'date' => $date]) }}" wire:navigate class="block group/link">
+                        <x-card
+                            class="min-w-[300px] max-w-[300px] min-h-[450px] bg-base-100/50 backdrop-blur-sm border-base-200 hover:border-primary/30 transition-all group shadow-none border cursor-pointer"
+                        >
+                            <x-slot:title>
+                                <div class="flex justify-between items-center border-b border-base-content/5 pb-3">
+                                    <span class="text-xs font-black uppercase tracking-widest {{ $date == date('Y-m-d') ? 'text-primary' : 'text-base-content/40' }}">
+                                        @if($date == date('Y-m-d')) Today
+                                        @elseif($date == date('Y-m-d', strtotime('-1 day'))) Yesterday
+                                        @else {{ \Carbon\Carbon::parse($date)->format('l, d M') }}
+                                        @endif
+                                    </span>
+                                    <span class="badge badge-sm {{ $items->count() > 0 ? 'badge-primary' : 'badge-ghost opacity-30 shadow-[0_0_10px_rgba(var(--p),0.2)]' }}">
+                                        {{ $items->count() }}
+                                    </span>
+                                </div>
+                            </x-slot:title>
 
-                        <div class="space-y-4 pt-2">
-                            @forelse($items as $item)
-                                <div class="flex gap-3 relative group/item">
-                                    <div class="w-2.5 h-2.5 rounded-full bg-primary mt-1.5 shrink-0 shadow-[0_0_8px_rgba(var(--p),0.5)]"></div>
-                                    <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-bold truncate leading-tight">{{ $item->title }}</p>
-                                        <div class="flex items-center gap-1.5 mt-1">
-                                            <x-icon name="o-cube" class="w-3 h-3 text-base-content/30" />
-                                            <p class="text-[10px] uppercase font-black text-base-content/30 tracking-wider truncate">
-                                                {{ $item->project->name ?? 'Individual Tasks' }}
-                                            </p>
+                            <div class="space-y-4 pt-2">
+                                @forelse($items as $item)
+                                    <div class="flex gap-3 relative group/item">
+                                        <div class="w-2.5 h-2.5 rounded-full bg-primary mt-1.5 shrink-0 shadow-[0_0_8px_rgba(var(--p),0.5)]"></div>
+                                        <div class="flex-1 min-w-0">
+                                            <p class="text-sm font-bold truncate leading-tight group-hover/link:text-primary transition-colors">{{ $item->title }}</p>
+                                            <div class="flex items-center gap-1.5 mt-1">
+                                                <x-icon name="o-cube" class="w-3 h-3 text-base-content/30" />
+                                                <p class="text-[10px] uppercase font-black text-base-content/30 tracking-wider truncate">
+                                                    {{ $item->project->name ?? 'Individual Tasks' }}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            @empty
-                                <div class="flex flex-col items-center justify-center py-8 opacity-20 sepia grayscale">
-                                    <x-icon name="o-clock" class="w-8 h-8 mb-2" />
-                                    <p class="text-xs font-bold uppercase tracking-widest italic text-center">Ghost Town</p>
-                                </div>
-                            @endforelse
-                        </div>
-                    </x-card>
+                                @empty
+                                    <div class="flex flex-col items-center justify-center py-8 opacity-20 sepia grayscale group-hover/link:opacity-40 transition-opacity">
+                                        <x-icon name="o-clock" class="w-8 h-8 mb-2" />
+                                        <p class="text-xs font-bold uppercase tracking-widest italic text-center">Ghost Town</p>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </x-card>
+                    </a>
                 @endforeach
             </div>
         </div>
 
-        {{-- Right: Input Form --}}
-        <div class="lg:col-span-1 sticky top-8">
-            <x-card title="Record Activity" subtitle="Quickly log your work" shadow separator class="border-t-4 border-primary">
+        <div class="lg:col-span-3 sticky top-8">
+            <x-card title="Record Your Activity" subtitle="Quickly log your work" shadow separator class="border-t-4 border-primary">
                  <x-form wire:submit="save">
                     <x-input label="Activity Title" wire:model="title" placeholder="Debugging auth issue..." icon="o-pencil-square" inline />
                     <x-select label="Target Project" wire:model="project_id" :options="$projects" placeholder="Select Project" icon="o-cube" inline />
