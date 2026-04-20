@@ -26,6 +26,7 @@ new class extends Component {
     {
         $data = $this->validate();
         $data['is_active'] = $this->is_active;
+        $data['created_by'] = auth()->id();
 
         Project::create($data);
 

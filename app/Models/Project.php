@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['name', 'description', 'git_repo', 'live_url', 'is_active'])]
+#[Fillable(['name', 'description', 'git_repo', 'live_url', 'is_active', 'created_by'])]
 class Project extends Model
 {
     use SoftDeletes;
@@ -19,5 +19,10 @@ class Project extends Model
     public function timesheets()
     {
         return $this->hasMany(Timesheet::class);
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

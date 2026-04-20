@@ -61,6 +61,10 @@ new class extends Component {
 
     public function with(): array
     {
+        if (auth()->user()->role_id !== 1) {
+            $this->selectedUserId = auth()->id();
+        }
+
         $users = User::all();
 
         $timesheets = Timesheet::where('user_id', $this->selectedUserId)
@@ -90,9 +94,11 @@ new class extends Component {
 
     <!-- FILTERS -->
     <div class="flex flex-col lg:flex-row gap-5 mb-10 items-end">
-        <div class="w-full lg:w-80">
-            <x-select label="Select User" wire:model.live="selectedUserId" :options="$users" icon="o-user" placeholder="Choose a user" inline />
-        </div>
+        @if(auth()->user()->role_id === 1)
+            <div class="w-full lg:w-80">
+                <x-select label="Select User" wire:model.live="selectedUserId" :options="$users" icon="o-user" placeholder="Choose a user" inline />
+            </div>
+        @endif
         <div class="w-full lg:w-64">
             <x-datetime label="View Date" wire:model.live="selectedDate" icon="o-calendar" inline />
         </div>

@@ -7,6 +7,10 @@
             ['title' => 'Users', 'icon' => 'o-users', 'link' => route('users.index')],
             ['title' => 'Profile', 'icon' => 'o-user-circle', 'link' => route('profile')],
         ];
+
+        if (auth()->user()->role_id !== 1) {
+            $menus = array_filter($menus, fn ($m) => $m['title'] !== 'Users');
+        }
     @endphp
 
     <x-app-brand class="px-5 pt-4" />

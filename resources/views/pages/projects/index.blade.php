@@ -48,6 +48,11 @@ new class extends Component {
 
     public function confirmDelete(Project $project): void
     {
+        if (auth()->user()->role_id !== 1 && $project->created_by !== auth()->id()) {
+            $this->error('Unauthorized.', position: 'toast-bottom');
+
+            return;
+        }
         $this->selectedProject = $project;
         $this->deleteModal = true;
     }
@@ -55,6 +60,11 @@ new class extends Component {
     public function delete(): void
     {
         if ($this->selectedProject) {
+            if (auth()->user()->role_id !== 1 && $this->selectedProject->created_by !== auth()->id()) {
+                $this->error('Unauthorized.', position: 'toast-bottom');
+
+                return;
+            }
             $name = $this->selectedProject->name;
             $this->selectedProject->delete();
             $this->warning("$name deleted", position: 'toast-bottom');
@@ -104,7 +114,7 @@ new class extends Component {
 
     <!-- TABLE  -->
     <x-card shadow>
-        <x-table :headers="$headers" :rows="$projects" :sort-by="$sortBy" with-pagination link="projects/{id}/edit">
+        <x-table :headers="$headers" :rows="$projects" :sort-by="$sortBy" with-pagination>
             @scope('cell_is_active', $project)
                 @if($project->is_active)
                     <x-badge value="Active" class="badge-success" />
@@ -124,9 +134,14 @@ new class extends Component {
                             <x-icon name="o-code-bracket-square" class="mt-1.5" />
                         </a>
                     </div>
-                    <div class="tooltip tooltip-left inline-block" data-tip="Hapus Data">
-                        <x-button icon="o-trash" wire:click="confirmDelete({{ $project->id }})" spinner class="btn-ghost btn-sm text-error" />
-                    </div>
+                    @if(auth()->user()->role_id === 1 || $project->created_by === auth()->id())
+                        <div class="tooltip tooltip-left inline-block" data-tip="Edit Data">
+                            <x-button icon="o-pencil" link="/projects/{{ $project->id }}/edit" class="btn-ghost btn-sm" />
+                        </div>
+                        <div class="tooltip tooltip-left inline-block" data-tip="Hapus Data">
+                            <x-button icon="o-trash" wire:click="confirmDelete({{ $project->id }})" spinner class="btn-ghost btn-sm text-error" />
+                        </div>
+                    @endif
                 </div>
             @endscope
         </x-table>
