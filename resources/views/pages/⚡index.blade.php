@@ -21,11 +21,14 @@ new class extends Component {
     public string $date = '';
 
     #[Rule('nullable')]
-    public ?string $description = null;
+    public string $description = '';
+
+    public int $editorKey = 0;
 
     public function mount(): void
     {
         $this->date = date('Y-m-d');
+        $this->description = '';
     }
 
     public function save(): void
@@ -35,10 +38,22 @@ new class extends Component {
 
         Timesheet::create($data);
 
-        $this->reset(['title', 'project_id', 'description']);
+        $this->title = '';
+        $this->project_id = null;
+        $this->description = '';
         $this->date = date('Y-m-d');
+        $this->editorKey++;
 
         $this->success('Timesheet saved!', position: 'toast-bottom');
+    }
+
+    public function clear(): void
+    {
+        $this->title = '';
+        $this->project_id = null;
+        $this->description = '';
+        $this->date = date('Y-m-d');
+        $this->editorKey++;
     }
 
     public function with(): array
@@ -131,13 +146,20 @@ new class extends Component {
         <div class="lg:col-span-3 sticky top-8">
             <x-card title="Record Your Activity" subtitle="Quickly log your work" shadow separator class="border-t-4 border-primary">
                  <x-form wire:submit="save">
-                    <x-input label="Activity Title" wire:model="title" placeholder="Debugging auth issue..." icon="o-pencil-square" inline />
+                    <x-input label="Activity Title" wire:model="title" placeholder="type your activity..." icon="o-pencil-square" inline />
                     <x-select label="Target Project" wire:model="project_id" :options="$projects" placeholder="Select Project" icon="o-cube" inline />
                     <x-datetime label="Log Date" wire:model="date" icon="o-calendar" inline />
-                    <x-markdown label="Description" wire:model="description" class="mt-2" />
+                    
+                    <div class="mt-2 text-base-content" wire:key="editor-wrapper-{{ $editorKey }}">
+                        @if($editorKey % 2 == 0)
+                            <x-markdown id="editor-0" label="Description" wire:model="description" />
+                        @else
+                            <x-markdown id="editor-1" label="Description" wire:model="description" />
+                        @endif
+                    </div>
 
                     <x-slot:actions>
-                        <x-button label="Clear" class="btn-ghost btn-sm" @click="$wire.reset(['title', 'project_id', 'description'])" />
+                        <x-button label="Clear" class="btn-ghost btn-sm" wire:click="clear" spinner="clear" />
                         <x-button label="Submit Entry" icon="o-cloud-arrow-up" class="btn-primary" type="submit" spinner="save" />
                     </x-slot:actions>
                  </x-form>
