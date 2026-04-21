@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Timesheet;
+use App\Models\Activity;
 use Illuminate\Database\Seeder;
 
-class TimesheetSeeder extends Seeder
+class ActivitySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $timesheets = [
+        $activities = [
             [
                 'project_id' => 1,
                 'user_id' => 1,
@@ -99,8 +99,8 @@ class TimesheetSeeder extends Seeder
             ],
         ];
 
-        foreach ($timesheets as $timesheet) {
-            Timesheet::create($timesheet);
+        foreach ($activities as $activity) {
+            Activity::create($activity);
         }
     }
 }

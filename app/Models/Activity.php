@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[Fillable(['project_id', 'user_id', 'date', 'title', 'description'])]
-class Timesheet extends Model
+class Activity extends Model
 {
     use SoftDeletes;
 

@@ -38,8 +38,8 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class, 'project_users');
     }
 
-    public function timesheets()
+    public function activities()
     {
-        return $this->hasMany(Timesheet::class);
+        return $this->hasMany(Activity::class);
     }
 }

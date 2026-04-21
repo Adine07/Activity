@@ -16,9 +16,9 @@ class Project extends Model
         return $this->belongsToMany(User::class, 'project_users');
     }
 
-    public function timesheets()
+    public function activities()
     {
-        return $this->hasMany(Timesheet::class);
+        return $this->hasMany(Activity::class);
     }
 
     public function creator()

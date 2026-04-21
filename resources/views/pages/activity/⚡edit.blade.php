@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Project;
-use App\Models\Timesheet;
+use App\Models\Activity;
 use App\Models\User;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -10,11 +10,10 @@ use Mary\Traits\Toast;
 new class extends Component {
     use Toast;
 
-    #[Rule('required')]
-    public ?int $project_id = null;
+    public Activity $activity;
 
     #[Rule('required')]
-    public ?int $user_id = null;
+    public ?int $project_id = null;
 
     #[Rule('required|date')]
     public string $date = '';
@@ -25,17 +24,20 @@ new class extends Component {
     #[Rule('nullable')]
     public ?string $description = null;
 
-    public function mount()
+    public function mount(): void
     {
-        $this->user_id = auth()->id();
-        $this->date = date('Y-m-d');
+        if ($this->activity->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        $this->fill($this->activity);
     }
 
     public function save(): void
     {
         $data = $this->validate();
-        Timesheet::create($data);
-        $this->success('Timesheet created with success.', redirectTo: '/timesheet');
+        $this->activity->update($data);
+        $this->success('Activity updated with success.', redirectTo: '/activity');
     }
 
     public function with(): array
@@ -47,7 +49,7 @@ new class extends Component {
 }; ?>
 
 <div>
-    <x-header title="Create Timesheet" separator />
+    <x-header title="Update Activity" separator />
 
     <x-form wire:submit="save">
         <div class="grid gap-5 lg:grid-cols-2">
@@ -62,7 +64,7 @@ new class extends Component {
         </div>
 
         <x-slot:actions>
-            <x-button label="Cancel" link="/timesheet" />
+            <x-button label="Cancel" link="/activity" />
             <x-button label="Save" icon="o-paper-airplane" spinner="save" type="submit" class="btn-primary" />
         </x-slot:actions>
     </x-form>

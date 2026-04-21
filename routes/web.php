@@ -28,10 +28,10 @@ Route::middleware('auth')->group(function () {
         Route::livewire('/users/{user}/edit', 'pages::users.edit')->name('edit');
     });
 
-    Route::name('timesheet.')->group(function () {
-        Route::livewire('/timesheet', 'pages::timesheet.index')->name('index');
-        Route::livewire('/timesheet/create', 'pages::timesheet.create')->name('create');
-        Route::livewire('/timesheet/{timesheet}/edit', 'pages::timesheet.edit')->name('edit');
+    Route::name('activity.')->group(function () {
+        Route::livewire('/activity', 'pages::activity.index')->name('index');
+        Route::livewire('/activity/create', 'pages::activity.create')->name('create');
+        Route::livewire('/activity/{activity}/edit', 'pages::activity.edit')->name('edit');
     });
 
     Route::name('projects.')->group(function () {
