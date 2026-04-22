@@ -30,8 +30,8 @@
     {{-- MAIN --}}
     <x-main>
         {{-- SIDEBAR --}}
-        <x-slot:sidebar>
-            <x-sidebar drawer="main-drawer" collapsible class="bg-base-100 lg:bg-inherit" />
+        <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-100 lg:bg-inherit">
+            <x-sidebar />
         </x-slot:sidebar>
 
         {{-- The `$slot` goes here --}}
