@@ -26,7 +26,7 @@ new class extends Component {
 
     public function mount(): void
     {
-        if (auth()->user()->role_id !== 1 && $this->project->created_by !== auth()->id()) {
+        if (auth()->user()->role_id != 1 && $this->project->created_by != auth()->id()) {
             abort(403, 'Unauthorized');
         }
 

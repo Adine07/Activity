@@ -28,7 +28,7 @@ new class extends Component {
 
     public function mount(): void
     {
-        if ($this->activity->user_id !== auth()->id()) {
+        if ($this->activity->user_id != auth()->id()) {
             abort(403, 'Unauthorized');
         }
 

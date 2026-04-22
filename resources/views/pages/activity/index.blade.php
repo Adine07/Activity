@@ -48,7 +48,7 @@ new class extends Component {
 
     public function delete(Activity $activity): void
     {
-        if ($activity->user_id !== auth()->id()) {
+        if ($activity->user_id != auth()->id()) {
             $this->error('Unauthorized action.', position: 'toast-bottom');
 
             return;
@@ -61,7 +61,7 @@ new class extends Component {
 
     public function with(): array
     {
-        if (auth()->user()->role_id !== 1) {
+        if (auth()->user()->role_id != 1) {
             $this->selectedUserId = auth()->id();
         }
 
@@ -94,7 +94,7 @@ new class extends Component {
 
     <!-- FILTERS -->
     <div class="flex flex-col lg:flex-row gap-5 mb-10 items-end">
-        @if(auth()->user()->role_id === 1)
+        @if(auth()->user()->role_id == 1)
         <div class="w-full lg:w-80">
             <x-select label="Select User" wire:model.live="selectedUserId" :options="$users" icon="o-user" placeholder="Choose a user" inline />
         </div>
@@ -140,7 +140,7 @@ new class extends Component {
                         </div>
                     </div>
 
-                    @if($selectedItem->user_id === auth()->id())
+                    @if($selectedItem->user_id == auth()->id())
                     <div class="flex gap-2 shrink-0">
                         <x-button icon="o-pencil-square" link="/activity/{{ $selectedItem->id }}/edit" label="Edit" class="btn-outline btn-sm rounded-xl font-black uppercase text-[10px] tracking-widest" />
                         <x-button icon="o-trash" wire:click="delete({{ $selectedItem->id }})" wire:confirm="Are you sure you want to delete this entry?" label="Delete" class="btn-error btn-outline btn-sm rounded-xl font-black uppercase text-[10px] tracking-widest" />

@@ -48,7 +48,7 @@ new class extends Component {
 
     public function confirmDelete(Project $project): void
     {
-        if (auth()->user()->role_id !== 1 && $project->created_by !== auth()->id()) {
+        if (auth()->user()->role_id != 1 && $project->created_by != auth()->id()) {
             $this->error('Unauthorized.', position: 'toast-bottom');
 
             return;
@@ -60,7 +60,7 @@ new class extends Component {
     public function delete(): void
     {
         if ($this->selectedProject) {
-            if (auth()->user()->role_id !== 1 && $this->selectedProject->created_by !== auth()->id()) {
+            if (auth()->user()->role_id != 1 && $this->selectedProject->created_by != auth()->id()) {
                 $this->error('Unauthorized.', position: 'toast-bottom');
 
                 return;
@@ -134,7 +134,7 @@ new class extends Component {
                             <x-icon name="o-code-bracket-square" class="mt-1.5" />
                         </a>
                     </div>
-                    @if(auth()->user()->role_id === 1 || $project->created_by === auth()->id())
+                    @if(auth()->user()->role_id == 1 || $project->created_by == auth()->id())
                         <div class="tooltip tooltip-left inline-block" data-tip="Edit Data">
                             <x-button icon="o-pencil" link="/projects/{{ $project->id }}/edit" class="btn-ghost btn-sm" />
                         </div>

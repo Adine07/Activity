@@ -77,7 +77,7 @@ new class extends Component {
         ];
 
         return collect($filters)
-            ->filter(fn($value) => !empty($value) && $value !== 0 && $value !== "0")
+            ->filter(fn($value) => !empty($value) && $value != 0 && $value != "0")
             ->count();
     }
 

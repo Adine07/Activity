@@ -8,8 +8,8 @@
         ['title' => 'Profile', 'icon' => 'o-user-circle', 'link' => route('profile')],
     ];
 
-    if (auth()->user()->role_id !== 1) {
-    $menus = array_filter($menus, fn ($m) => $m['title'] !== 'Users');
+    if (auth()->user()->role_id != 1) {
+    $menus = array_filter($menus, fn ($m) => $m['title'] != 'Users');
     }
     @endphp
 
