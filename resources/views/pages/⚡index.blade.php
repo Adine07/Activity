@@ -24,11 +24,26 @@ new class extends Component {
     public string $description = '';
 
     public int $editorKey = 0;
+    public Illuminate\Support\Collection $projectsSearchable;
 
     public function mount(): void
     {
         $this->date = date('Y-m-d');
         $this->description = '';
+        $this->search();
+    }
+
+    public function search(string $value = ''): void
+    {
+        $selectedOption = Project::where('id', $this->project_id)->get();
+
+        $this->projectsSearchable = Project::query()
+            ->where('is_active', true)
+            ->where('name', 'like', "%$value%")
+            ->take(5)
+            ->orderBy('name')
+            ->get()
+            ->merge($selectedOption);
     }
 
     public function save(): void
@@ -74,7 +89,6 @@ new class extends Component {
         }
 
         return [
-            'projects' => Project::where('is_active', true)->get(),
             'groupedActivities' => $dates,
         ];
     }
@@ -146,7 +160,7 @@ new class extends Component {
             <x-card title="Record Your Activity" subtitle="Quickly log your work" shadow separator class="border-t-4 border-primary">
                 <x-form wire:submit="save">
                     <x-input label="Activity Title" wire:model="title" placeholder="type your activity..." icon="o-pencil-square" inline />
-                    <x-select label="Target Project" wire:model="project_id" :options="$projects" placeholder="Select Project" icon="o-cube" inline />
+                    <x-choices label="Target Project" wire:model="project_id" :options="$projectsSearchable" placeholder="Select Project" icon="o-cube" inline single searchable />
                     <x-datetime label="Log Date" wire:model="date" icon="o-calendar" inline />
 
                     <div class="mt-2 text-base-content" wire:key="editor-wrapper-{{ $editorKey }}">

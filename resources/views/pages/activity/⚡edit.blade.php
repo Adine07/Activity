@@ -24,6 +24,8 @@ new class extends Component {
     #[Rule('nullable')]
     public ?string $description = null;
 
+    public Illuminate\Support\Collection $projectsSearchable;
+
     public function mount(): void
     {
         if ($this->activity->user_id !== auth()->id()) {
@@ -31,6 +33,20 @@ new class extends Component {
         }
 
         $this->fill($this->activity);
+        $this->search();
+    }
+
+    public function search(string $value = ''): void
+    {
+        $selectedOption = Project::where('id', $this->project_id)->get();
+
+        $this->projectsSearchable = Project::query()
+            ->where('is_active', true)
+            ->where('name', 'like', "%$value%")
+            ->take(5)
+            ->orderBy('name')
+            ->get()
+            ->merge($selectedOption);
     }
 
     public function save(): void
@@ -42,9 +58,7 @@ new class extends Component {
 
     public function with(): array
     {
-        return [
-            'projects' => Project::all(),
-        ];
+        return [];
     }
 }; ?>
 
@@ -54,14 +68,14 @@ new class extends Component {
     <x-form wire:submit="save">
         <div class="grid gap-5 lg:grid-cols-2">
             <div class="space-y-4">
-                <x-select label="Project" wire:model="project_id" :options="$projects" placeholder="Select Project" icon="o-cube" inline />
+                <x-choices label="Project" wire:model="project_id" :options="$projectsSearchable" placeholder="Select Project" icon="o-cube" inline single searchable />
                 <x-datetime label="Date" wire:model="date" icon="o-calendar" inline />
             </div>
             <div class="space-y-4">
                 <x-input label="Title/Activity" wire:model="title" inline />
-                <x-markdown label="Note/Description" wire:model="description" class="mt-4" />
             </div>
         </div>
+        <x-markdown label="Note/Description" wire:model="description" class="mt-4" />
 
         <x-slot:actions>
             <x-button label="Cancel" link="/activity" />
