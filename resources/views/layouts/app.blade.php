@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="@hasSection('meta_description')@yield('meta_description')@elseif(isset($meta_description)){{ $meta_description }}@else{{ config('app.name') }} — Sistem pelacakan aktivitas dan pencatatan waktu untuk tim. Buat, kelola, dan laporkan aktivitas proyek.@endif">
     <title>
         @hasSection('title')
             @yield('title') - {{ config('app.name') }}
