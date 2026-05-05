@@ -76,7 +76,6 @@ new class extends Component {
     public function headers(): array
     {
         return [
-            ['key' => 'id', 'label' => '#', 'class' => 'w-1'],
             ['key' => 'name', 'label' => 'Name', 'class' => 'w-64'],
             ['key' => 'is_active', 'label' => 'Status', 'class' => 'w-32'],
         ];
