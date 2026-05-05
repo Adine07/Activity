@@ -14,6 +14,9 @@
             {{ config('app.name') }}
         @endif
     </title>
+    
+    {{-- favicon --}}
+    <link rel="icon" href="{{ asset('favicon.png') }}" type="image/x-icon">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen font-sans antialiased bg-base-200">
