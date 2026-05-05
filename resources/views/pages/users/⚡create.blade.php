@@ -58,6 +58,7 @@ new class extends Component
 ?>
 
 <div>
+        @section('title', 'Create User')
     <x-header title="Create User" separator />
 
     <div class="grid gap-5 lg:grid-cols-2">

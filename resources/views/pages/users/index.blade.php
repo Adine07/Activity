@@ -199,6 +199,8 @@ new class extends Component {
     }
 }; ?>
 
+@section('title', 'Users')
+
 <div>
     <!-- HEADER -->
     <x-header title="Users" separator progress-indicator>

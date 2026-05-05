@@ -34,6 +34,8 @@ new class extends Component {
     }
 }; ?>
 
+@section('title', 'Create Project')
+
 <div>
     <x-header title="Create Project" separator />
 

@@ -44,6 +44,8 @@ new class extends Component {
     }
 }; ?>
 
+@section('title', 'Edit Project')
+
 <div>
     <x-header title="Update {{ $project->name }}" separator />
 

@@ -100,6 +100,8 @@ new class extends Component {
     }
 }; ?>
 
+@section('title', 'Projects')
+
 <div>
     <!-- HEADER -->
     <x-header title="Projects" separator progress-indicator>

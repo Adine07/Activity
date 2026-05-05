@@ -67,6 +67,8 @@ new class extends Component {
     }
 }; ?>
 
+@section('title', 'Profile')
+
 <div>
     <x-header title="Account Settings" subtitle="Manage your personal information and security" separator progress-indicator />
 

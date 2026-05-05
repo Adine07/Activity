@@ -94,6 +94,8 @@ new class extends Component {
     }
 }; ?>
 
+@section('title', 'Dashboard')
+
 <div>
     <x-header title="Dashboard" separator progress-indicator>
         <x-slot:middle class="hidden lg:flex">

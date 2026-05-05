@@ -83,6 +83,8 @@ new class extends Component {
     }
 }; ?>
 
+@section('title', 'Activities')
+
 <div>
 
     <!-- HEADER -->

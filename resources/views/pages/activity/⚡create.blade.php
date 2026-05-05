@@ -60,6 +60,8 @@ new class extends Component {
     }
 }; ?>
 
+@section('title', 'Create Activity')
+
 <div>
     <x-header title="Create Activity" separator />
 

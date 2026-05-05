@@ -62,6 +62,7 @@ new class extends Component
 ?>
 
 <div>
+    @section('title', 'Edit User')
     <x-header title="Update {{ $user->name }}" separator />
 
     <div class="grid gap-5 lg:grid-cols-2">

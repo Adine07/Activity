@@ -39,6 +39,8 @@ class extends Component {
 }
 ?>
 
+@section('title', 'Login')
+
 <div>
     <div class="md:w-96 mx-auto mt-20">
         <div class="mb-10">
