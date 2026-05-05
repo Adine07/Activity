@@ -77,7 +77,13 @@ new class extends Component {
                 <x-input label="Title/Activity" wire:model="title" inline />
             </div>
         </div>
-        <x-markdown label="Note/Description" wire:model="description" class="mt-4" />
+        @php
+            $config = [
+                'spellChecker' => true,
+                'toolbar' => ['heading', 'bold', 'italic', '|', 'code', 'quote', 'ordered-list', 'unordered-list', '|', 'link', 'table'],
+            ];
+        @endphp
+        <x-markdown label="Note/Description" wire:model="description" class="mt-4" :config="$config" />
 
         <x-slot:actions>
             <x-button label="Cancel" link="/activity" />

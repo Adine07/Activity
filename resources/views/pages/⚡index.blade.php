@@ -166,10 +166,16 @@ new class extends Component {
                     <x-datetime label="Log Date" wire:model="date" icon="o-calendar" inline />
 
                     <div class="mt-2 text-base-content" wire:key="editor-wrapper-{{ $editorKey }}">
+                        @php
+                            $config = [
+                                'spellChecker' => true,
+                                'toolbar' => ['heading', 'bold', 'italic', '|', 'code', 'quote', 'ordered-list', 'unordered-list', '|', 'link', 'table'],
+                            ];
+                        @endphp
                         @if($editorKey % 2 == 0)
-                        <x-markdown id="editor-0" label="Description" wire:model="description" />
+                        <x-markdown id="editor-0" label="Description" wire:model="description" :config="$config" />
                         @else
-                        <x-markdown id="editor-1" label="Description" wire:model="description" />
+                        <x-markdown id="editor-1" label="Description" wire:model="description" :config="$config" />
                         @endif
                     </div>
 
