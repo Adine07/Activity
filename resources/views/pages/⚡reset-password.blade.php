@@ -20,6 +20,8 @@ class extends Component {
 	#[Rule('required|confirmed|min:8')]
 	public string $password = '';
 
+	public string $password_confirmation = '';
+
 	public function mount($token = null)
 	{
 		if (auth()->user()) {
@@ -30,20 +32,22 @@ class extends Component {
 		$this->email = request()->query('email', '');
 	}
 
-	public function reset()
+	public function submitReset()
 	{
-		$this->validate();
+		$this->validate([
+			'email' => 'required|email',
+			'password' => 'required|confirmed|min:8',
+		]);
 
 		$status = Password::reset(
-			['email' => $this->email, 'password' => $this->password, 'password_confirmation' => $this->password, 'token' => $this->token],
+			['email' => $this->email, 'password' => $this->password, 'password_confirmation' => $this->password_confirmation, 'token' => $this->token],
 			function ($user, $password) {
 				$user->password = Hash::make($password);
 				$user->save();
 			}
 		);
 
-		if ($status == Password::PASSWORD_RESET || $status == Password::RESET_LINK_SENT || $status == Password::PASSWORD_RESET) {
-			// On success, redirect to login with status
+		if ($status == Password::PASSWORD_RESET) {
 			return redirect()->route('login')->with('status', __($status));
 		}
 
@@ -64,7 +68,7 @@ class extends Component {
 			<x-alert title="{{ session('status') }}" icon="o-check-circle" class="alert-success mb-6" />
 		@endif
 
-		<x-form wire:submit="reset">
+		<x-form wire:submit="submitReset">
 			<input type="hidden" wire:model="token" />
 			<x-input placeholder="Email" wire:model="email" icon="o-envelope" inline />
 			<x-input placeholder="New Password" wire:model="password" type="password" icon="o-key" inline />
@@ -72,7 +76,7 @@ class extends Component {
 
 			<x-slot:actions>
 				<div class="flex flex-col w-full gap-2">
-					<x-button label="Reset Password" type="submit" class="btn-primary w-full" spinner="reset" />
+					<x-button label="Reset Password" type="submit" class="btn-primary w-full" spinner="submitReset" />
 					<x-button label="Back to Login" link="/login" class="btn-ghost w-full" />
 				</div>
 			</x-slot:actions>
