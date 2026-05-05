@@ -20,7 +20,7 @@ class extends Component {
     {
         // It is logged in
         if (auth()->user()) {
-            return redirect('/');
+            return redirect()->route('dashboard');
         }
     }
 

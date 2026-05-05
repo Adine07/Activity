@@ -28,7 +28,7 @@ class extends Component {
     {
         // It is logged in
         if (auth()->user()) {
-            return redirect('/');
+            return redirect()->route('dashboard');
         }
     }
 
@@ -45,7 +45,7 @@ class extends Component {
 
         request()->session()->regenerate();
 
-        return redirect('/');
+        return redirect()->route('dashboard');
     }
 }
 ?>
