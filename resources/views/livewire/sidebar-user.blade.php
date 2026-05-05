@@ -24,7 +24,7 @@ new class extends Component {
 
         <x-list-item :item="$user" value="name" sub-value="email" no-separator no-hover class="-mx-2 !-my-2 rounded transition-all duration-500">
             <x-slot:avatar>
-                <x-avatar image="{{ $user->avatar ?? '/empty-user.jpg' }}" class="!w-10 shadow-sm border border-base-200" />
+                <x-avatar image="{{ $user->avatar ?? '/empty-user.png' }}" class="!w-10 shadow-sm border border-base-200" />
             </x-slot:avatar>
             <x-slot:actions>
                 <div x-data="{ logoutModal: false }">

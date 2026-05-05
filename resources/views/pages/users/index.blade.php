@@ -217,7 +217,7 @@ new class extends Component {
     <x-card shadow>
         <x-table :headers="$headers" :rows="$users" :sort-by="$sortBy" with-pagination link="users/{id}/edit">
             @scope('cell_avatar', $user)
-                <x-avatar image="{{ $user->avatar ?? '/empty-user.jpg' }}" class="!w-10 !h-10" />
+                <x-avatar image="{{ $user->avatar ?? '/empty-user.png' }}" class="!w-10 !h-10" />
             @endscope
             @scope('actions', $user)
             <div class="flex gap-2">
