@@ -19,7 +19,14 @@
             <td style="border: 1px solid #000;">{{ \Carbon\Carbon::parse($activity->date)->translatedFormat('l, d F Y H:i') }}</td>
             <td style="border: 1px solid #000;">{{ $activity->project->name ?? '-' }}</td>
             <td style="border: 1px solid #000;">{{ $activity->title }}</td>
-            <td style="border: 1px solid #000;">{{ $activity->description }}</td>
+            <?php
+                // Convert markdown to plain text for Excel export (strip HTML to keep cells clean)
+                $descHtml = \Illuminate\Support\Str::markdown($activity->description ?? '');
+                $descText = trim(strip_tags($descHtml));
+                // collapse multiple whitespace/newlines
+                $descText = preg_replace('/\s+/', ' ', $descText);
+            ?>
+            <td style="border: 1px solid #000;">{{ $descText }}</td>
         </tr>
     @endforeach
     </tbody>

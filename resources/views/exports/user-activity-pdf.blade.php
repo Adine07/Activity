@@ -14,6 +14,9 @@
         td { border: 1px solid #CBD5E1; padding: 8px; text-align: left; vertical-align: top; }
         tr:nth-child(even) { background-color: #F1F5F9; }
         .footer { margin-top: 30px; text-align: right; font-size: 10px; color: #64748B; }
+        /* Description content styling */
+        .desc { word-wrap: break-word; max-width: 100%; }
+        .desc img { max-width: 100%; height: auto; display: block; max-height: 180px; margin-top:6px; }
     </style>
 </head>
 <body>
@@ -41,7 +44,39 @@
                     <td>{{ \Carbon\Carbon::parse($activity->date)->translatedFormat('l, d F Y H:i') }}</td>
                     <td>{{ $activity->project->name ?? '-' }}</td>
                     <td>{{ $activity->title }}</td>
-                    <td>{{ $activity->description }}</td>
+                    <td class="desc">
+                        <?php
+                            $raw = $activity->description ?? '';
+                            $html = \Illuminate\Support\Str::markdown($raw);
+
+                            // Replace image URLs that point to storage/public with local file paths so DomPDF can render them
+                            $html = preg_replace_callback('/<img[^>]+src=["\']([^"\']+)["\'][^>]*>/i', function ($m) {
+                                $url = $m[1];
+                                // handle protocol-relative URLs
+                                if (strpos($url, '//') === 0) {
+                                    $url = (config('app.url') ? rtrim(config('app.url'), '/') : 'http:') . $url;
+                                }
+
+                                $parsed = parse_url($url);
+                                $path = $parsed['path'] ?? null;
+
+                                // If image is served from /storage or /uploads, map to public_path
+                                if ($path && (str_starts_with($path, '/storage') || str_contains($path, '/storage/'))) {
+                                    $local = public_path(ltrim($path, '/'));
+                                    if (file_exists($local)) {
+                                        $new = 'file://' . $local;
+                                        return str_replace($m[1], $new, $m[0]);
+                                    }
+                                }
+
+                                // if cannot map, return original tag
+                                return $m[0];
+                            }, $html);
+
+                            // Output rendered HTML (safe because from markdown input)
+                            echo $html;
+                        ?>
+                    </td>
                 </tr>
             @empty
                 <tr>
