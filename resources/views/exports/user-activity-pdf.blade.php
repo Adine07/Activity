@@ -38,7 +38,7 @@
         <tbody>
             @forelse($activities as $activity)
                 <tr>
-                    <td>{{ \Carbon\Carbon::parse($activity->date)->translatedFormat('l, d F Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($activity->date)->translatedFormat('l, d F Y H:i') }}</td>
                     <td>{{ $activity->project->name ?? '-' }}</td>
                     <td>{{ $activity->title }}</td>
                     <td>{{ $activity->description }}</td>

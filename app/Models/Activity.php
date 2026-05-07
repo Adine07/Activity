@@ -11,6 +11,10 @@ class Activity extends Model
 {
     use SoftDeletes;
 
+    protected $casts = [
+        'date' => 'datetime',
+    ];
+
     public function project()
     {
         return $this->belongsTo(Project::class);

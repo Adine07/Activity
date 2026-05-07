@@ -3,6 +3,7 @@
 use App\Models\Project;
 use App\Models\Activity;
 use App\Models\User;
+use Carbon\Carbon;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Mary\Traits\Toast;
@@ -33,6 +34,8 @@ new class extends Component {
         }
 
         $this->fill($this->activity);
+        // ensure the date property is in datetime-local format for the input
+        $this->date = $this->activity->date ? Carbon::parse($this->activity->date)->format('Y-m-d\TH:i') : date('Y-m-d\TH:i');
         $this->search();
     }
 
@@ -52,6 +55,9 @@ new class extends Component {
     public function save(): void
     {
         $data = $this->validate();
+        if (! empty($data['date'])) {
+            $data['date'] = Carbon::parse($data['date'])->format('Y-m-d H:i:s');
+        }
         $this->activity->update($data);
         $this->success('Activity updated with success.', redirectTo: '/activity');
     }
@@ -71,7 +77,7 @@ new class extends Component {
         <div class="grid gap-5 lg:grid-cols-2">
             <div class="space-y-4">
                 <x-choices label="Project" wire:model="project_id" :options="$projectsSearchable" placeholder="Select Project" icon="o-cube" inline single searchable />
-                <x-datetime label="Date" wire:model="date" icon="o-calendar" inline />
+                <x-datetime label="Date" wire:model="date" type="datetime-local" icon="o-calendar" inline />
             </div>
             <div class="space-y-4">
                 <x-input label="Title/Activity" wire:model="title" inline />

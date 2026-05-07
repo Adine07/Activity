@@ -68,7 +68,7 @@ new class extends Component {
         $users = User::all();
 
         $activities = Activity::where('user_id', $this->selectedUserId)
-            ->where('date', $this->selectedDate)
+            ->whereDate('date', $this->selectedDate)
             ->with(['project'])
             ->get();
 
@@ -138,7 +138,7 @@ new class extends Component {
                         <h1 class="text-4xl lg:text-5xl font-black tracking-tighter mb-6 leading-none">{{ $selectedItem->title }}</h1>
                         <div class="flex items-center gap-4">
                             <x-badge value="{{ $selectedItem->project->name ?? 'Internal Project' }}" class="badge-primary font-black uppercase text-[10px] tracking-[0.2em] px-4 py-3" />
-                            <span class="text-xs font-bold text-base-content/30 uppercase tracking-widest">{{ $selectedItem->created_at?->format('F d, Y') }}</span>
+                            <span class="text-xs font-bold text-base-content/30 uppercase tracking-widest ml-2">{{ $selectedItem->date?->format('F d, Y H:i') }}</span>
                         </div>
                     </div>
 

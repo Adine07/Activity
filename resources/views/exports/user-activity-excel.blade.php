@@ -16,7 +16,7 @@
     <tbody>
     @foreach($activities as $activity)
         <tr>
-            <td style="border: 1px solid #000;">{{ \Carbon\Carbon::parse($activity->date)->translatedFormat('l, d F Y') }}</td>
+            <td style="border: 1px solid #000;">{{ \Carbon\Carbon::parse($activity->date)->translatedFormat('l, d F Y H:i') }}</td>
             <td style="border: 1px solid #000;">{{ $activity->project->name ?? '-' }}</td>
             <td style="border: 1px solid #000;">{{ $activity->title }}</td>
             <td style="border: 1px solid #000;">{{ $activity->description }}</td>

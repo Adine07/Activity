@@ -28,7 +28,7 @@ new class extends Component {
 
     public function mount(): void
     {
-        $this->date = date('Y-m-d');
+        $this->date = date('Y-m-d\TH:i');
         $this->description = '';
         $this->search();
     }
@@ -51,12 +51,16 @@ new class extends Component {
         $data = $this->validate();
         $data['user_id'] = auth()->id();
 
+        if (! empty($data['date'])) {
+            $data['date'] = \Carbon\Carbon::parse($data['date'])->format('Y-m-d H:i:s');
+        }
+
         Activity::create($data);
 
         $this->title = '';
         $this->project_id = null;
         $this->description = '';
-        $this->date = date('Y-m-d');
+        $this->date = date('Y-m-d\TH:i');
         $this->editorKey++;
 
         $this->success('Activity saved!', position: 'toast-bottom');
@@ -67,7 +71,7 @@ new class extends Component {
         $this->title = '';
         $this->project_id = null;
         $this->description = '';
-        $this->date = date('Y-m-d');
+        $this->date = date('Y-m-d\TH:i');
         $this->editorKey++;
     }
 
@@ -79,7 +83,9 @@ new class extends Component {
             ->with('project')
             ->orderBy('date', 'desc')
             ->get()
-            ->groupBy('date');
+            ->groupBy(function ($item) {
+                return Carbon::parse($item->date)->toDateString();
+            });
 
         // Ensure we have a continuous range of dates
         $dates = collect();
@@ -163,7 +169,7 @@ new class extends Component {
                 <x-form wire:submit="save">
                     <x-input label="Activity Title" wire:model="title" placeholder="type your activity..." icon="o-pencil-square" inline />
                     <x-choices label="Target Project" wire:model="project_id" :options="$projectsSearchable" placeholder="Select Project" icon="o-cube" inline single searchable />
-                    <x-datetime label="Log Date" wire:model="date" icon="o-calendar" inline />
+                    <x-datetime label="Log Date" wire:model="date" type="datetime-local" icon="o-calendar" inline />
 
                     <div class="mt-2 text-base-content" wire:key="editor-wrapper-{{ $editorKey }}">
                         @php
