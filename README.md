@@ -24,8 +24,6 @@
 Aplikasi ini memungkinkan boss / management untuk:
 
 * ✅ Melihat aktivitas harian karyawan
-* ✅ Monitoring progress pekerjaan
-* ✅ Tracking aktivitas secara realtime
 * ✅ Dashboard modern & responsive
 * ✅ Sistem yang ringan dan cepat
 
@@ -128,12 +126,6 @@ DB_PASSWORD=
 php artisan migrate --seed
 ```
 
-Atau jika ingin migrate fresh:
-
-```bash
-php artisan migrate:fresh --seed
-```
-
 ---
 
 ## 7️⃣ Build Frontend Assets
@@ -169,7 +161,7 @@ http://127.0.0.1:8000
 # 🔐 Default Login
 
 ```txt
-Email    : admin@example.com
+Email    : admin@mail.com
 Password : password
 ```
 
