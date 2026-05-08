@@ -1,6 +1,6 @@
 # 🚀 Activity — Employee Activity Monitoring System
 
-> Sistem monitoring aktivitas karyawan berbasis Laravel untuk membantu management dan boss memantau pekerjaan, progres, dan aktivitas harian karyawan secara realtime.
+> An employee activity monitoring system built with Laravel to help management and business owners track employee work, progress, and daily activities in real-time.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Laravel-13-red?style=for-the-badge&logo=laravel" />
@@ -12,20 +12,21 @@
 
 ---
 
-# 📌 About Project
+# 📌 About The Project
 
-**Activity** adalah aplikasi monitoring aktivitas karyawan yang dibuat menggunakan **Laravel 13** dengan kombinasi modern stack seperti:
+**Activity** is a modern employee activity monitoring application built using:
 
 * ⚡ Laravel 13
 * 🔥 Livewire 3
 * 🎨 Mary UI
 * 💨 Tailwind CSS
 
-Aplikasi ini memungkinkan boss / management untuk:
+This application allows management and business owners to:
 
-* ✅ Melihat aktivitas harian karyawan
-* ✅ Dashboard modern & responsive
-* ✅ Sistem yang ringan dan cepat
+* ✅ Monitor employee daily activities
+* ✅ View activities in real-time
+* ✅ Use a modern and responsive dashboard
+* ✅ Experience a lightweight and fast system
 
 ---
 
@@ -44,7 +45,7 @@ Aplikasi ini memungkinkan boss / management untuk:
 
 # ⚙️ System Requirements
 
-Pastikan environment sudah memenuhi requirement berikut:
+Make sure your environment meets the following requirements:
 
 | Requirement | Version |
 | ----------- | ------- |
@@ -65,7 +66,7 @@ Pastikan environment sudah memenuhi requirement berikut:
 git clone https://github.com/Adine07/Activity.git
 ```
 
-Masuk ke folder project:
+Navigate into the project directory:
 
 ```bash
 cd Activity
@@ -91,13 +92,13 @@ npm install
 
 ## 4️⃣ Setup Environment
 
-Copy file `.env`
+Copy the `.env` file:
 
 ```bash
 cp .env.example .env
 ```
 
-Generate application key:
+Generate the application key:
 
 ```bash
 php artisan key:generate
@@ -107,7 +108,7 @@ php artisan key:generate
 
 ## 5️⃣ Configure Database
 
-Buka file `.env` lalu sesuaikan konfigurasi database:
+Open the `.env` file and update the database configuration:
 
 ```env
 DB_CONNECTION=mysql
@@ -150,7 +151,7 @@ npm run build
 php artisan serve
 ```
 
-Akses project di:
+Access the project at:
 
 ```txt
 http://127.0.0.1:8000
@@ -165,7 +166,7 @@ Email    : admin@mail.com
 Password : password
 ```
 
-> Sesuaikan jika credential default berbeda di Seeder.
+> Adjust the credentials if your Seeder uses different default accounts.
 
 ---
 
@@ -190,12 +191,12 @@ routes/
 
 # 🧩 Features
 
-* 📊 Dashboard Monitoring
+* 📊 Monitoring Dashboard
 * 👨‍💼 Employee Activity Tracking
-* 📝 Daily Activity Report
+* 📝 Daily Activity Reports
 * ⚡ Realtime UI with Livewire
 * 📱 Responsive Design
-* 🔐 Authentication
+* 🔐 Authentication System
 * 🎨 Modern UI using Mary UI
 
 ---
@@ -208,13 +209,13 @@ routes/
 php artisan optimize:clear
 ```
 
-## Run Queue
+## Run Queue Worker
 
 ```bash
 php artisan queue:work
 ```
 
-## Run Test
+## Run Tests
 
 ```bash
 php artisan test
@@ -240,13 +241,13 @@ php artisan optimize
 
 # 🤝 Contributing
 
-Pull request, issue, dan contribution sangat terbuka untuk pengembangan project ini.
+Pull requests, issues, and contributions are welcome for further project development.
 
 ---
 
 # 📄 License
 
-Project ini menggunakan lisensi MIT.
+This project is licensed under the MIT License.
 
 ---
 
